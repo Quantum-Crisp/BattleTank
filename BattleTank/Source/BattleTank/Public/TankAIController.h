@@ -4,23 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Tank.h"
 #include "TankAIController.generated.h"
 
-/**
- *
- */
+//Forward Declaration
+class ATank;
+
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
 private:
-	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
-	
+	//The min distance the AI can get to the player (in cm)
+	float AcceptanceRadius = 3000;
 
-protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 };
