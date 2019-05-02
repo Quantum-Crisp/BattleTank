@@ -1,7 +1,7 @@
 // Copyright Oliver Scott 2019
 
 #include "TankAIController.h"
-#include "Tank.h"
+#include "TankAimComponent.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -13,18 +13,20 @@ void ATankAIController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	//Find the pawn attached to the player controller.
-	auto playerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	auto controlledTank = Cast<ATank>(GetPawn());
+	auto playerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto controlledTank = GetPawn();
 
-	if (playerTank)
-	{
-		//TMove towards the player
-		MoveToActor(playerTank, AcceptanceRadius);
+	if (!ensure(playerTank && controlledTank)) { return; }
 
-		//Aim towards the player
-		controlledTank->AimAt(playerTank->GetActorLocation());
+	//TMove towards the player
+	MoveToActor(playerTank, AcceptanceRadius);
 
-		//Fire if able / ready
-		controlledTank->Fire();
-	}
+	//Aim towards the player
+	auto AimingComp = controlledTank->FindComponentByClass<UTankAimComponent>();
+	AimingComp->AimAt(playerTank->GetActorLocation());
+
+	//Fire if able / ready
+	if(AimingComp->GetFiringState() == EFiringState::Locked)
+		AimingComp->Fire();
+
 }
