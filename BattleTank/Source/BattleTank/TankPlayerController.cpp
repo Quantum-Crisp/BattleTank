@@ -26,7 +26,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	FVector hitLocation; // An out parameter.
 	bool bGotHitLocation = GetSightRayHitLocation(hitLocation);
-	UE_LOG(LogTemp,Warning,TEXT("bGotHitLocation %i"),bGotHitLocation)
 	if (bGotHitLocation)
 	{
 		AimingComp->AimAt(hitLocation);
