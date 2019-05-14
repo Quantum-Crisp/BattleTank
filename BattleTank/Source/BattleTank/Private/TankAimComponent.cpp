@@ -18,6 +18,7 @@ UTankAimComponent::UTankAimComponent()
 
 void UTankAimComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	//Prevent firing for the first few seconds.
 	LastFireTime = FPlatformTime::Seconds();
 }

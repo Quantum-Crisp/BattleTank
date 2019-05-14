@@ -33,7 +33,12 @@ private:
 
 	virtual void BeginPlay() override;
 
+	virtual void SetPawn(APawn *InPawn) override;
+
 	virtual void Tick(float deltaTime) override;
+
+	UFUNCTION()
+		void OnPossessedTankDeath();
 
 	UPROPERTY(EditDefaultsOnly)
 		float CrosshairXLocation = 0.5;
